@@ -73,6 +73,14 @@ ArticleProvider.prototype.findById = function(id, callback) {
     });
 };
 
+ArticleProvider.prototype.removeById = function(id, callback) {
+    this.getCollection(function(error, collection){
+        collection.remove({_id: collection.db.bson_serializer.ObjectID.createFromHexString(id)}, function(error){
+            callback(error);
+        });
+    });
+};
+
 ArticleProvider.prototype.save = function(articles, callback) {
     this.getCollection(function(error, article_collection) {
         if( error ) callback(error)

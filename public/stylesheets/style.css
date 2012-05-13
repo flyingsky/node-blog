@@ -32,8 +32,18 @@ h1 {
   text-decoration: underline;
   background-color: #eee;
 }
+#articles .article .blogView {
+  float: left;
+}
+#articles .article .blogDeleteUpdate {
+  float: right;
+}
+#articles .article .blogDeleteUpdate a {
+  margin-right: 5px;
+}
 #articles .article .body {
   background-color: #ffa;
+  clear: both;
 }
 .article .created_at {
   display: none;

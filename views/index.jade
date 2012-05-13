@@ -1,8 +1,14 @@
 h1= title
 #articles
+    div.new
+        a(href="/blog/new")!= "New"
     - each article in articles
       div.article
         div.created_at= article.created_at
         div.title
-            a(href="/blog/"+article._id.toHexString())!= article.title
+            div.blogView
+                a(href="/blog/"+article._id.toHexString())!= article.title
+            div.blogDeleteUpdate
+                a(href="/blog/delete/"+article._id.toHexString())!= "delete"
+                a(href="/blog/edit/"+article._id.toHexString())!= "edit"
         div.body= article.body

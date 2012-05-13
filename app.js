@@ -69,6 +69,25 @@ app.get('/blog/:id', function(req, res) {
     });
 });
 
+app.get('/blog/delete/:id', function(req, res) {
+    articleProvider.removeById(req.params.id, function(error, article) {
+        if(!error){
+            res.redirect('/');
+        }
+    });
+});
+
+app.get('/blog/update/:id', function(req, res) {
+    articleProvider.findById(req.params.id, function(error, article) {
+        res.render('blog_show.jade',
+            { locals: {
+                title: article.title,
+                article:article
+            }
+            });
+    });
+});
+
 app.post('/blog/addComment', function(req, res) {
     articleProvider.addCommentToArticle(req.param('_id'), {
         person: req.param('person'),
