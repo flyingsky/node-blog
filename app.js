@@ -13,6 +13,7 @@ var app = module.exports = express.createServer();
 app.configure(function(){
     app.set('views', __dirname + '/views');
     app.set('view engine', 'jade');
+    app.set('view option', {layout: false});
     app.use(express.bodyParser());
     app.use(express.methodOverride());
     app.use(require('stylus').middleware({ src: __dirname + '/public' }));
@@ -40,6 +41,28 @@ app.get('/', function(req, res){
             }
         });
     })
+});
+
+app.post('/', function(req, res){
+    console.log(req.body);
+    res.send(req.body);
+    return;
+    var content = req.param('content');
+    console.log(content);
+    var events = [];
+    var lines = content.split('\n');
+    console.log(lines);
+    for(var i in lines){
+	var line = lines[i].trim();
+	if(line.length ==  0){
+	    continue;
+	}
+	var event = line.split('\t');
+	var eventObj = {name:event[0]};
+	if(event.length > 1) eventObj.duration = event[1];
+	events.push(eventObj);
+    }
+    res.send(events);
 });
 
 app.get('/blog/new', function(req, res) {
@@ -96,6 +119,11 @@ app.post('/blog/addComment', function(req, res) {
     } , function( error, docs) {
         res.redirect('/blog/' + req.param('_id'))
     });
+});
+
+app.get('/s/:id', function(req, res){
+    var obj = {id: req.param('id')};
+    res.send(obj);
 });
 
 app.listen(process.env.VCAP_APP_PORT || 3000);
