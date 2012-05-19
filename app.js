@@ -122,7 +122,7 @@ app.post('/blog/addComment', function(req, res) {
 });
 
 app.get('/s/:id', function(req, res){
-    var obj = {id: req.param('id')};
+    var obj = {id: req.param('id'), name: req.param('id')};
     res.send(obj);
 });
 
