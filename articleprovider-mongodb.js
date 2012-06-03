@@ -104,6 +104,28 @@ ArticleProvider.prototype.save = function(articles, callback) {
     });
 };
 
+ArticleProvider.prototype.update = function(article, callback) {
+    this.getCollection(function(error, article_collection){
+        if (error) {
+            callback(error);
+        }
+        else {
+            article_collection.update({
+                _id: article_collection.db.bson_serializer.ObjectID.createFromHexString(article._id)
+            }, {
+                $set: {
+                    title: article.title,
+                    body: article.body
+                }
+            }, {
+                safe: true
+            }, function(){
+                callback(null, article);
+            });
+        }
+    });
+};
+
 ArticleProvider.prototype.addCommentToArticle = function(articleId, comment, callback) {
     this.getCollection(function(error, article_collection) {
         if( error ) callback( error );

@@ -1,11 +1,11 @@
-h1= title
-form( method="post")
-    div
+form( method="post", action="/blog/upsert")
+    input(type="hidden", name="id", value=article._id)
+    div.article
         div
             span Title :
-            input(type="text", name="title", id="editArticleTitle")
+            input(type="text", name="title", id="editArticleTitle", value=article.title)
         div
             span Body :
-            textarea( name="body", rows=20, id="editArticleBody)
+            textarea( name="body", rows=20, id="editArticleBody")!= article.body
         div#editArticleSubmit
             input(type="submit", value="Send")

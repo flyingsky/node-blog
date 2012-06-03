@@ -4,6 +4,7 @@
 
 var express = require('express');
 var ArticleProvider = require('./articleprovider-mongodb').ArticleProvider;
+var markdown = require('markdown-js');
 
 
 var app = module.exports = express.createServer();
@@ -34,61 +35,83 @@ var articleProvider = new ArticleProvider();
 
 app.get('/', function(req, res){
     articleProvider.findAll( function(error,docs){
+        var articles = docs || [];
+        articles.forEach(function(article, index){
+            article.body = markdown.makeHtml(article.body);
+        });
         res.render('index.jade', {
             locals: {
                 title: 'Blog',
-                articles: docs || []
+                articles: articles
             }
         });
     })
 });
 
-app.post('/', function(req, res){
-    console.log(req.body);
-    res.send(req.body);
-    return;
-    var content = req.param('content');
-    console.log(content);
-    var events = [];
-    var lines = content.split('\n');
-    console.log(lines);
-    for(var i in lines){
-	var line = lines[i].trim();
-	if(line.length ==  0){
-	    continue;
-	}
-	var event = line.split('\t');
-	var eventObj = {name:event[0]};
-	if(event.length > 1) eventObj.duration = event[1];
-	events.push(eventObj);
-    }
-    res.send(events);
-});
-
-app.get('/blog/new', function(req, res) {
-    res.render('blog_new.jade', { locals: {
-        title: 'New Post'
-    }
+//new post
+app.get('/blog/upsert', function(req, res) {
+    res.render('blog_new.jade', {
+        locals: {
+            title: 'New Post',
+            article: {
+                id: '',
+                title: '',
+                body: ''
+            }
+        }
     });
 });
 
-app.post('/blog/new', function(req, res){
-    articleProvider.save({
-        title: req.param('title'),
-        body: req.param('body')
-    }, function( error, docs) {
-        res.redirect('/')
-    });
-});
-
-app.get('/blog/:id', function(req, res) {
+//update post
+app.get('/blog/upsert/:id', function(req, res) {
     articleProvider.findById(req.params.id, function(error, article) {
-        res.render('blog_show.jade',
-            { locals: {
+        console.log(article);
+        res.render('blog_new.jade', {
+            locals: {
                 title: article.title,
                 article:article
             }
-            });
+        });
+    });
+});
+
+//create or update post
+app.post('/blog/upsert', function(req, res){
+    var id = req.param('id');
+    if (id) {
+        var article = {
+            _id: id,
+            title: req.param('title'),
+            body: req.param('body')
+        };
+        console.log('before update article');
+        console.log(article);
+        articleProvider.update(article, function(error, article) {
+            res.redirect('/blog/' + article._id);
+        });
+    } else {
+        articleProvider.save({
+            title: req.param('title'),
+            body: req.param('body')
+        }, function( error, docs) {
+            res.redirect('/')
+        });
+    }
+});
+
+function _showArticle(res, article) {
+    article.body = markdown.makeHtml(article.body);
+    res.render('blog_show.jade',{
+        locals: {
+            title: article.title,
+            article: article
+        }
+    });
+}
+
+app.get('/blog/:id', function(req, res) {
+    articleProvider.findById(req.params.id, function(error, article) {
+        _showArticle(res, article);
     });
 });
 
@@ -97,17 +120,6 @@ app.get('/blog/delete/:id', function(req, res) {
         if(!error){
             res.redirect('/');
         }
-    });
-});
-
-app.get('/blog/update/:id', function(req, res) {
-    articleProvider.findById(req.params.id, function(error, article) {
-        res.render('blog_show.jade',
-            { locals: {
-                title: article.title,
-                article:article
-            }
-            });
     });
 });
 
@@ -121,9 +133,19 @@ app.post('/blog/addComment', function(req, res) {
     });
 });
 
-app.get('/s/:id', function(req, res){
-    var obj = {id: req.param('id'), name: req.param('id')};
-    res.send(obj);
+app.register('.md', {
+    compile: function(str, options){
+        var html = markdown.makeHtml(str);
+        return function(locals){
+            return html.replace(/\{([^}]+)\}/g, function(_, name){
+                return locals[name];
+            });
+        };
+    }
+});
+
+app.get('/s', function(req, res){
+    res.render('hello/hello.md', {layout: false});
 });
 
 app.listen(process.env.VCAP_APP_PORT || 3000);
