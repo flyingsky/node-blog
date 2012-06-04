@@ -42,11 +42,20 @@ app.get('/', function(req, res){
         res.render('index.jade', {
             locals: {
                 title: 'Blog',
-                articles: articles
+                articles: articles,
+                readonly: req.param('pwd') != 'mandy'
             }
         });
     })
 });
+
+/*
+app.post('/', function(req, res){
+    var events = req.param('events');
+    console.log(events);
+    res.redirect('/');
+});
+*/
 
 //new post
 app.get('/blog/upsert', function(req, res) {
