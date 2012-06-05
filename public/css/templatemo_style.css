@@ -198,6 +198,30 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 	margin: 20px 0;
 }
 
+.comment {
+    border-top: 1px dashed #000000;
+    margin: 10px 0px 0px 50px;
+}
+
+.comment .author {
+    color: #5E7D05;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.comment .comment-content {
+    margin: 0px;
+    padding: 0px 2em;
+}
+
+.comment-form {
+    margin: 20px 0px 0px 0px;
+}
+
+.comment-field {
+    width: 100%;
+}
+
 #templatemo_footer_wrapper {
 	clear: both;
 	width: 100%;

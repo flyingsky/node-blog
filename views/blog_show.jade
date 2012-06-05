@@ -1,19 +1,38 @@
-div.article
-    div.created_at= article.created_at
-    div.title= article.title
-    div.body!= article.body
-    - each comment in article.comments
+extends ./layout/basic_layout
+
+block latest_news
+    div.news_box
+        h3
+            a(href="#") News1
+        p Cras nisl eros, elementum eu, iaculis vitae, viverra ut, ligula. Pellentesque metus. Duis dolor.
+
+    div.news_box
+        h3
+            a(href="#") News2
+        p Cras nisl eros, elementum eu, iaculis vitae, viverra ut, ligula. Pellentesque metus. Duis dolor.
+
+block content_right
+      div.post_section
+        h2.post_section_title
+            a(href="/blog/"+article._id.toHexString())!= article.title
+
+        div.post_content
+            div.post_content_header!= article.created_at
+            div.post_content_body!= article.body
+
+      - each comment in article.comments
+        div.comment
+            span.author=comment.person
+            div.comment-content=comment.comment
+
       div.comment
-        div.person= comment.person
-        div.comment= comment.comment
-    div
-      form( method="post", action="/blog/addComment")
-        input( type="hidden", name="_id", value=article._id.toHexString())
-        div
-          span Author :
-          input( type="text", name="person", id="addCommentPerson")
-        div
-          span Comment :
-          textarea( name="comment", rows=5, id="addCommentComment")
-        div#editArticleSubmit
-          input(type="submit", value="Send")
+        form.comment-form(method="post", action="/blog/addComment")
+          input( type="hidden", name="_id", value=article._id.toHexString())
+          div
+            span Author :
+            input.comment-field(type="text", name="person", id="addCommentPerson")
+          div
+            span Comment :
+            textarea.comment-field(name="comment", rows=5, id="addCommentComment")
+          div#editArticleSubmit
+            input(type="submit", value="Submit")
