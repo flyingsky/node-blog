@@ -4,6 +4,40 @@ html
     block scripts
   body
     block content
+      #templatemo_wrapper
+          block content_left
+              #templatemo_left_column
+                #site_title
+                    h1
+                        a(href="#", target="_blank") Ramon Blog
+                            span Tech for Better Life
+
+                #templatemo_menu
+                    ul
+                        li
+                            a(href="#", class="current") Home
+                        li
+                            a(href="#") About
+                        li
+                            a(href="#") Blog
+
+                #templatemo_sidebar
+                    div.sidebar_box
+                        h2 Latest News
+                        block latest_news
+
+          #templatemo_content
+              block content_right
+
     block foot
-      div.footer
-        @copyright-2012
+      #templatemo_footer_wrapper
+        #templatemo_footer
+            ul.footer_menu
+                li
+                    a(href="#") Home
+                li
+                    a(href="#") About
+                li
+                    a(href="#") Blog
+
+            @copyright-2012

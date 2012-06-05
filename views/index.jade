@@ -1,6 +1,17 @@
 extends ./layout/basic_layout
 
-block content
+block latest_news
+    div.news_box
+        h3
+            a(href="#") News1
+        p Cras nisl eros, elementum eu, iaculis vitae, viverra ut, ligula. Pellentesque metus. Duis dolor.
+
+    div.news_box
+        h3
+            a(href="#") News2
+        p Cras nisl eros, elementum eu, iaculis vitae, viverra ut, ligula. Pellentesque metus. Duis dolor.
+
+block content_right
     script(type="text/javascript")
         google_ad_client = "ca-pub-1992382271196226";
         /* ramonblog */
@@ -10,19 +21,26 @@ block content
 
     script(type="text/javascript", src="http://pagead2.googlesyndication.com/pagead/show_ads.js")
 
-    #articles
-        div.new
-            if !readonly
-                a(href="/blog/upsert")!= "New"
-        - each article in articles
-          div.article
-            div.created_at= article.created_at
-            div.title
-                div.blogView
-                    a(href="/blog/"+article._id.toHexString())!= article.title
+    // TODO
+    // #templatemo_slider
 
-            if !readonly
-                div.blogDeleteUpdate
-                    a(href="/blog/delete/"+article._id.toHexString())!= "delete"
-                    a(href="/blog/upsert/"+article._id.toHexString())!= "edit"
-            div.body!= article.body
+    div.new
+        if !readonly
+            a(href="/blog/upsert")!= "New"
+    - each article in articles
+      div.post_section
+        h2.post_section_title
+            a(href="/blog/"+article._id.toHexString())!= article.title
+
+        if !readonly
+            div.blogDeleteUpdate
+                a(href="/blog/delete/"+article._id.toHexString())!= "delete"
+                a(href="/blog/upsert/"+article._id.toHexString())!= "edit"
+
+        div.post_content
+            div.post_content_header!= article.created_at
+            div.post_content_body!= article.body
+            div.post_content_footer
+                a.more(href="/blog/"+article._id.toHexString()) Continue Reading...
+                &nbsp;|&nbsp;
+                a.comment(href="/blog/"+article._id.toHexString()) Comments(#{article.comments.length})
