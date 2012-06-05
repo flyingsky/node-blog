@@ -13,8 +13,7 @@ block latest_news
 
 block content_right
       div.post_section
-        h2.post_section_title
-            a(href="/blog/"+article._id.toHexString())!= article.title
+        h2.post_section_title=article.title
 
         div.post_content
             div.post_content_header!= article.created_at
