@@ -1,11 +1,15 @@
-form( method="post", action="/blog/upsert")
-    input(type="hidden", name="id", value=article._id)
-    div.article
-        div
-            span Title :
-            input(type="text", name="title", id="editArticleTitle", value=article.title)
-        div
-            span Body :
-            textarea( name="body", rows=20, id="editArticleBody")!= article.body
-        div#editArticleSubmit
-            input(type="submit", value="Send")
+block scripts
+    script
+        $(function(){
+            $('#post-cancel, .submit').button();
+        });
+
+.post_form
+    form( method="post", action="/blog/upsert")
+        input.text.ui-corner-all(type="hidden", name="id", value=article._id)
+        span.label Title
+        input.text.ui-corner-all(type="text", name="title", id="editArticleTitle", value=article.title)
+        span.label Content
+        textarea.text.ui-corner-all(name="body", rows=40, id="editArticleBody")!= article.body
+        a#post-cancel(href='/') Cancel
+        input.submit(type="submit", value="Submit")

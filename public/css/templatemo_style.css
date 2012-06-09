@@ -42,7 +42,7 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 }
 
 #templatemo_wrapper {
-	width: 990px;
+	width: 1150px; /*990 + 160 gooadv*/
 	margin: 0 auto;
 }
 
@@ -152,7 +152,7 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 }
 
 #templatemo_content {
-	float: right;
+	float: left;
 	width: 630px;
 	padding: 100px 60px 0 40px;
 	background: url(images/templatemo_content.jpg) top no-repeat;
@@ -192,6 +192,14 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 
 .post_content_header {
     margin-bottom: 20px;
+}
+
+.post_content_footer a {
+    padding: 0px 5px;
+}
+
+.post_content_footer .first {
+    padding-left: 0px;
 }
 
 .post_section img {
@@ -263,3 +271,47 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 .footer_menu .last_menu {
 	border: none;
 }
+
+.login-form {
+    margin: 0px auto;
+    width: 400px;
+}
+
+.errorMsg {
+    color: red;
+    text-align: center;
+}
+
+.label, .text {
+    display: block;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.login .text {
+    height: 15px;
+    border: 1px solid #749D07;
+}
+
+.post_form {
+    margin: 10px 218px;
+}
+
+.post-new {
+    float: right;
+    font-size: 20px;
+}
+
+/** Google Adsense **/
+
+.right-adv {
+    float: right;
+    width: 160px;
+    margin-top: 40px;
+}
+
+#top-adv {
+    text-align: center;
+    margin-top: -35px;
+}
+

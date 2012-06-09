@@ -9,7 +9,7 @@ html
               #templatemo_left_column
                 #site_title
                     h1
-                        a(href="#", target="_blank") Ramon Blog
+                        a(href="/login") Ramon Blog
                             span Tech for Better Life
 
                 #templatemo_menu
@@ -27,7 +27,28 @@ html
                         block latest_news
 
           #templatemo_content
+              #top-adv
+                  block top_adv_scripts
+                    script(type="text/javascript")
+                            google_ad_client = "ca-pub-1992382271196226";
+                            /* 728x15, 创建于 08-9-3 */
+                            google_ad_slot = "7224060249";
+                            google_ad_width = 468;
+                            google_ad_height = 60;
+
+                    script(type="text/javascript", src="http://pagead2.googlesyndication.com/pagead/show_ads.js")
+
               block content_right
+
+          .right-adv
+              script(type="text/javascript")
+                  google_ad_client = "ca-pub-1992382271196226";
+                  /* 160x600 */
+                  google_ad_slot = "0586702988";
+                  google_ad_width = 160;
+                  google_ad_height = 600;
+
+              script(type="text/javascript", src="http://pagead2.googlesyndication.com/pagead/show_ads.js")
 
     block foot
       #templatemo_footer_wrapper

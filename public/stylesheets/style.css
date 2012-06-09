@@ -4,53 +4,11 @@ body {
   text-stroke: 1px rgba(255,255,255,0.1);
   color: #555;
 }
-#articles {
-  text-align: left;
-  margin-left: auto;
-  margin-right: auto;
-  width: 320px;
-}
-#articles .article {
-  margin: 20px;
-}
-#articles .article .created_at {
-  display: none;
-}
-#articles .article .title {
-  text-align: center;
-  font-weight: bold;
-  text-decoration: underline;
-  background-color: #eee;
-}
-#articles .article .blogView {
-  float: left;
-}
-#articles .article .blogDeleteUpdate {
+.blogDeleteUpdate {
   float: right;
+  font-size: 20px;
+  margin-top: -30px;
 }
-#articles .article .blogDeleteUpdate a {
+.blogDeleteUpdate a {
   margin-right: 5px;
-}
-#articles .article .body {
-  background-color: #ffa;
-  clear: both;
-}
-.article .created_at {
-  display: none;
-}
-.article input[type =text] {
-  width: 490px;
-  margin-left: 16px;
-}
-.article input[type =button],
-.article input[type =submit] {
-  text-align: left;
-  margin-left: 440px;
-}
-.article textarea {
-  width: 490px;
-  height: 90px;
-}
-.footer {
-  text-align: center;
 }

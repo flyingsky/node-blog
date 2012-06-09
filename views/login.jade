@@ -1,0 +1,16 @@
+extends ./layout/basic_layout
+
+block content_right
+      div.post_section
+        h2.post_section_title Login
+
+        div.post_content
+            .login-form
+                .errorMsg=errorMsg
+                form.login(method="post")
+                    span.label Name:
+                    input.text.ui-corner-all(type="text", name="name")
+                    span.label Password:
+                    input.text.ui-corner-all(type="password", name="password")
+                    input.submit(type="submit", value="Login")
+

@@ -5,6 +5,7 @@
 var express = require('express');
 var ArticleProvider = require('./articleprovider-mongodb').ArticleProvider;
 var markdown = require('markdown-js');
+var config = require('./config.js');
 
 
 var app = module.exports = express.createServer();
@@ -16,6 +17,8 @@ app.configure(function(){
     app.set('view engine', 'jade');
     app.set('view option', {layout: false});
     app.use(express.bodyParser());
+    app.use(express.cookieParser());
+    app.use(express.session({ secret: "ramonblog" }));
     app.use(express.methodOverride());
     app.use(require('stylus').middleware({ src: __dirname + '/public' }));
     app.use(app.router);
@@ -33,20 +36,56 @@ app.configure('production', function(){
 var articleProvider = new ArticleProvider();
 // Routes
 
+function _isReadOnly(req) {
+    return !(req && req.session && req.session.isManager);
+}
+
 app.get('/', function(req, res){
     articleProvider.findAll( function(error,docs){
+        console.log('manager=' + !(req.session && req.session.isManager));
         var articles = docs || [];
         articles.forEach(function(article, index){
             article.body = markdown.makeHtml(article.body);
         });
+        articles.reverse();
         res.render('index.jade', {
             locals: {
                 title: 'Blog',
                 articles: articles,
-                readonly: req.param('pwd') != 'mandy'
+                readonly: _isReadOnly(req)
             }
         });
     })
+});
+
+app.get('/login', function(req, res){
+    if (_isReadOnly(req)) {
+        res.render('login.jade', {
+            locals: {
+                errorMsg: req.session.errorMsg
+            }
+        });
+    } else {
+        res.redirect('/');
+    }
+
+});
+
+app.post('/login', function(req, res){
+    var name = req.param('name');
+    var password = req.param('password');
+    console.log(name + '; ' + password);
+    if (name == config.name && password == config.password)
+    {
+        req.session.isManager = true;
+        console.log('login success');
+        res.redirect('/');
+    }
+    else
+    {
+        req.session.errorMsg = 'user name or password is wrong';
+        res.redirect('/login');
+    }
 });
 
 /*
@@ -109,18 +148,18 @@ app.post('/blog/upsert', function(req, res){
 });
 
 function _showArticle(res, article) {
-    article.body = markdown.makeHtml(article.body);
-    res.render('blog_show.jade',{
-        locals: {
-            title: article.title,
-            article: article
-        }
-    });
 }
 
 app.get('/blog/:id', function(req, res) {
     articleProvider.findById(req.params.id, function(error, article) {
-        _showArticle(res, article);
+        article.body = markdown.makeHtml(article.body);
+        res.render('blog_show.jade',{
+            locals: {
+                title: article.title,
+                article: article,
+                readonly: _isReadOnly(req)
+            }
+        });
     });
 });
 
