@@ -6,6 +6,7 @@ var express = require('express');
 var ArticleProvider = require('./articleprovider-mongodb').ArticleProvider;
 var markdown = require('markdown-js');
 var config = require('./config.js');
+var util = require('./lib/util');
 
 
 var app = module.exports = express.createServer();
@@ -36,6 +37,15 @@ app.configure('production', function(){
 var articleProvider = new ArticleProvider();
 // Routes
 
+function _extLocals(locals, req) {
+    var extraLocals = {
+        readOnly: _isReadOnly(req),
+        favLinks: config.favLinks
+    }
+    console.log(util.extend(extraLocals, locals));
+    return util.extend(extraLocals, locals);
+}
+
 function _isReadOnly(req) {
     return !(req && req.session && req.session.isManager);
 }
@@ -49,11 +59,10 @@ app.get('/', function(req, res){
         });
         articles.reverse();
         res.render('index.jade', {
-            locals: {
+            locals: _extLocals({
                 title: 'Blog',
-                articles: articles,
-                readonly: _isReadOnly(req)
-            }
+                articles: articles
+            }, req)
         });
     })
 });
@@ -61,9 +70,9 @@ app.get('/', function(req, res){
 app.get('/login', function(req, res){
     if (_isReadOnly(req)) {
         res.render('login.jade', {
-            locals: {
+            locals: _extLocals({
                 errorMsg: req.session.errorMsg
-            }
+            }, req)
         });
     } else {
         res.redirect('/');
@@ -154,11 +163,10 @@ app.get('/blog/:id', function(req, res) {
     articleProvider.findById(req.params.id, function(error, article) {
         article.body = markdown.makeHtml(article.body);
         res.render('blog_show.jade',{
-            locals: {
+            locals: _extLocals({
                 title: article.title,
-                article: article,
-                readonly: _isReadOnly(req)
-            }
+                article: article
+            }, req)
         });
     });
 });
@@ -179,6 +187,10 @@ app.post('/blog/addComment', function(req, res) {
     } , function( error, docs) {
         res.redirect('/blog/' + req.param('_id'))
     });
+});
+
+app.get('/about', function(req, res){
+    res.render('about.jade', {locals: _extLocals({}, req)});
 });
 
 app.register('.md', {

@@ -7,7 +7,20 @@
  */
 var config = {
     name: 'test',
-    password: 'test'
+    password: 'test',
+    favLinks: [{
+        title: 'My old blog',
+        url:'http://blog.csdn.net/llmlx',
+        description: 'My old blog at CSDN'
+    }, {
+        title: 'Color Schema Designer',
+        url: 'http://colorschemedesigner.com/',
+        description: 'A cool online color schema designer'
+    }, {
+        title: 'Nadia Alramli\'s Blog',
+        url:'http://nadiana.com/',
+        description: 'Nadia lives in Dublin, Ireland and work as a Software Engineer at DemonWare, a subsidiary of Activision Blizzard, Inc. Focus Python&Js.'
+    }]
 };
 
 module.exports = config;

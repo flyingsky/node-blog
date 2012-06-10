@@ -6,23 +6,12 @@ block scripts
            $('#blogDelete').easyconfirm();
         });
 
-block latest_news
-    div.news_box
-        h3
-            a(href="http://nadiana.com/") Nadia Alramli's Blog
-        Nadia lives in Dublin, Ireland and work as a Software Engineer at DemonWare, a subsidiary of Activision Blizzard, Inc. Focus Python&Js.
-
-    div.news_box
-        h3
-            a(href="#") News2
-        p Cras nisl eros, elementum eu, iaculis vitae, viverra ut, ligula. Pellentesque metus. Duis dolor.
-
 block content_right
     // TODO
     // #templatemo_slider
 
     div.post-new
-        if !readonly
+        if !readOnly
             a(href="/blog/upsert")!= "+ New"
 
     - each article in articles
@@ -38,7 +27,7 @@ block content_right
                 |
                 a(href="/blog/"+article._id.toHexString()) Comments(#{article.comments.length})
 
-                if !readonly
+                if !readOnly
                     |
                     a#blogDelete(href="/blog/delete/"+article._id.toHexString())!= "Delete"
                     |
