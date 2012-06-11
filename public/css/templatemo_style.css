@@ -42,8 +42,9 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 }
 
 #templatemo_wrapper {
-	width: 1150px; /*990 + 160 gooadv*/
-	margin: 0 auto;
+	width: 990px; /*990 + 160 gooadv*/
+	/*margin: 0 auto;*/
+    float:left;
 }
 
 #templatemo_left_column {
@@ -186,6 +187,11 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 	background: url(images/templatemo_header.png) no-repeat bottom left;
 }
 
+.post_section h3 {
+    border-left: 5px gray solid;
+    padding-left: 5px;
+}
+
 .post_content_body {
 	margin-bottom: 20px;
 }
@@ -198,8 +204,12 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
     padding: 0px 5px;
 }
 
-.post_content_footer .first {
+.post_content_footer a:first-child {
     padding-left: 0px;
+}
+
+.post_content_footer a + a {
+    border-left: 1px solid black;
 }
 
 .post_section img {
@@ -265,7 +275,10 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 	margin: 0px;
 	padding: 0 20px;
 	display: inline;
-	border-right: 1px solid #fff;
+}
+
+.footer_menu li + li {
+    border-left: 1px solid #fff;
 }
 
 .footer_menu .last_menu {
@@ -304,10 +317,16 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 
 /** Google Adsense **/
 
+.left-adv{
+    float: left;
+    width: 160px;
+    margin-top: 410px;
+}
+
 .right-adv {
     float: right;
     width: 160px;
-    margin-top: 40px;
+    margin-top: 410px;
 }
 
 #top-adv {
@@ -322,5 +341,10 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 #templatemo_search img {
     border: none;
     margin-left: -4px;
+}
+
+.content_wrapper {
+    width: 1310px;
+    margin: 0 auto;
 }
 

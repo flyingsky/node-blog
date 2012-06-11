@@ -1,3 +1,4 @@
+var util = require('./lib/util');
 var Db = require('mongodb').Db;
 var Connection = require('mongodb').Connection;
 var Server = require('mongodb').Server;
@@ -46,13 +47,17 @@ ArticleProvider.prototype.getCollection= function(callback) {
     });
 };
 
-ArticleProvider.prototype.findAll = function(callback) {
+ArticleProvider.prototype.findAll = function(options, callback) {
+    if (typeof options === 'function') {
+        callback = options;
+    }
+    options = util.extend({}, options);
+
     this.getCollection(function(error, article_collection) {
         if( error ) callback(error)
         else {
-            article_collection.find().toArray(function(error, results) {
-                console.log("findAll results=" + results);
-                console.log("findAll error=" + error);
+            article_collection.find({}, options).toArray(function(error, results) {
+                console.log("findAll results=" + results.length);
                 if( error ) callback(error)
                 else callback(null, results)
             });

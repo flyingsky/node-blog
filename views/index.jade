@@ -24,11 +24,8 @@ block content_right
             div.post_content_body!= article.body
             div.post_content_footer
                 a.first(href="/blog/"+article._id.toHexString()) Continue Reading...
-                |
                 a(href="/blog/"+article._id.toHexString()) Comments(#{article.comments.length})
 
                 if !readOnly
-                    |
                     a#blogDelete(href="/blog/delete/"+article._id.toHexString())!= "Delete"
-                    |
                     a(href="/blog/upsert/"+article._id.toHexString())!= "Edit"

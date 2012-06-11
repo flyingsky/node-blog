@@ -42,7 +42,6 @@ function _extLocals(locals, req) {
         readOnly: _isReadOnly(req),
         favLinks: config.favLinks
     }
-    console.log(util.extend(extraLocals, locals));
     return util.extend(extraLocals, locals);
 }
 
@@ -51,13 +50,12 @@ function _isReadOnly(req) {
 }
 
 app.get('/', function(req, res){
-    articleProvider.findAll( function(error,docs){
-        console.log('manager=' + !(req.session && req.session.isManager));
+    articleProvider.findAll({limit: 10, sort: [['created_at', 'desc']]}, function(error,docs){
         var articles = docs || [];
+        console.log(docs);
         articles.forEach(function(article, index){
             article.body = markdown.makeHtml(article.body);
         });
-        articles.reverse();
         res.render('index.jade', {
             locals: _extLocals({
                 title: 'Blog',

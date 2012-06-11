@@ -4,6 +4,17 @@ html
     block scripts
   body
     block content
+    .content_wrapper
+      .left-adv
+                script(type="text/javascript")
+                    google_ad_client = "ca-pub-1992382271196226";
+                    /* 160x600 */
+                    google_ad_slot = "0586702988";
+                    google_ad_width = 160;
+                    google_ad_height = 600;
+
+                script(type="text/javascript", src="http://pagead2.googlesyndication.com/pagead/show_ads.js")
+
       #templatemo_wrapper
           block content_left
               #templatemo_left_column
@@ -60,15 +71,15 @@ html
 
               block content_right
 
-          .right-adv
-              script(type="text/javascript")
-                  google_ad_client = "ca-pub-1992382271196226";
-                  /* 160x600 */
-                  google_ad_slot = "0586702988";
-                  google_ad_width = 160;
-                  google_ad_height = 600;
+      .right-adv
+          script(type="text/javascript")
+              google_ad_client = "ca-pub-1992382271196226";
+              /* 160x600 */
+              google_ad_slot = "0586702988";
+              google_ad_width = 160;
+              google_ad_height = 600;
 
-              script(type="text/javascript", src="http://pagead2.googlesyndication.com/pagead/show_ads.js")
+          script(type="text/javascript", src="http://pagead2.googlesyndication.com/pagead/show_ads.js")
 
     block foot
       #templatemo_footer_wrapper
