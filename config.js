@@ -6,8 +6,8 @@
  * To change this template use File | Settings | File Templates.
  */
 var config = {
-    name: 'mandy',
-    password: 'ramon',
+    name: 'test',
+    password: 'test',
     favLinks: [{
         title: 'My old blog',
         url:'http://blog.csdn.net/llmlx',
