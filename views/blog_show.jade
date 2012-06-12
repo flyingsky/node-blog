@@ -15,6 +15,13 @@ block content_right
                     a#blogDelete(href="/blog/delete/"+article._id.toHexString())!= "Delete"
                     a(href="/blog/upsert/"+article._id.toHexString())!= "Edit"
 
+                #post-content-footer-adv
+                    script(type="text/javascript")
+                        document.write("<iframe name='banner' src='http://referrals.appfog.com/scripts/banner.php?a_aid=17910715&a_bid=732d756d&w=1' framespacing='0' frameborder='no' scrolling='no' width='580' height='90' allowtransparency='true'><a href='https://phpfog.com?a_aid=17910715&amp;a_bid=732d756d' target='_top'>Deploy This On PHP Fog Banner</a></iframe>");
+                    noscript
+                        h2
+                            a(href="https://phpfog.com") Deploy This On PHP Fog Banner
+
       - each comment in article.comments
         div.comment
             span.author=comment.person

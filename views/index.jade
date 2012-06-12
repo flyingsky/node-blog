@@ -29,3 +29,46 @@ block content_right
                 if !readOnly
                     a#blogDelete(href="/blog/delete/"+article._id.toHexString())!= "Delete"
                     a(href="/blog/upsert/"+article._id.toHexString())!= "Edit"
+
+
+    .item-pagination
+      div(style='margin:10px auto;width:' + (6 + pageObj.displayPages.length)*40 + 'px')
+        ul
+            li
+              if pageObj.first == -1
+                span <<
+              else
+                a(href='?page=' + pageObj.first) <<
+            li
+              if pageObj.previous == -1
+                span <
+              else
+                a(href="?page=" + pageObj.previous) <
+
+            if (pageObj.less != null)
+              li
+                a(href="?page=" + pageObj.less) ...
+
+            - each displayPageIndex in pageObj.displayPages
+              if displayPageIndex == pageObj.currentPage
+                li
+                  span=(displayPageIndex+1)
+              else
+                li
+                  a(href="?page=" + (displayPageIndex))=(displayPageIndex+1)
+
+            if (pageObj.more != null)
+              li
+                a(href="?page=" + (pageObj.more)) ...
+
+            li
+              if (pageObj.next == -1)
+                span >
+              else
+                a(href='?page=' + pageObj.next) >
+            li
+              if (pageObj.last == -1)
+                span >>
+              else
+                a(href="?page=" + pageObj.last) >>
+

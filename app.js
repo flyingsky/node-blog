@@ -49,18 +49,67 @@ function _isReadOnly(req) {
     return !(req && req.session && req.session.isManager);
 }
 
+function _generatePage(count, currentPage) {
+    var pageSize = config.homeConfig.pageSize;
+    var displayPageCount = config.homeConfig.displayPageCount;
+    var reminder = count % pageSize;
+    var totalPage = (count - reminder) / pageSize;
+    if (reminder != 0) {
+        totalPage += 1;
+    }
+
+    var pageObj = {
+        displayPages: [],
+        currentPage: currentPage,
+        less: null,
+        more: null
+    };
+    pageObj.first = currentPage == 0 ? -1 : 0;
+    pageObj.previous = currentPage > 0 ? currentPage - 1 : -1;
+    pageObj.next = currentPage < totalPage - 1 ? currentPage + 1 : -1;
+    pageObj.last = currentPage < totalPage - 1 ? totalPage - 1 : -1;
+
+    reminder = currentPage % displayPageCount;
+    for(var i = 0, displayPageIndex = currentPage - reminder; i < displayPageCount && displayPageIndex < totalPage; i++, displayPageIndex++) {
+        pageObj.displayPages.push(displayPageIndex);
+    }
+
+    if (pageObj.displayPages.length > 0 && pageObj.displayPages[0] >= displayPageCount) {
+        pageObj.less = pageObj.displayPages[0] - pageSize;
+    }
+    if (pageObj.displayPages.length > 0 && pageObj.displayPages[0] + displayPageCount < totalPage) {
+        pageObj.more = pageObj.displayPages[0] + pageSize;
+    }
+
+    console.log(pageObj);
+    return pageObj;
+}
+
 app.get('/', function(req, res){
-    articleProvider.findAll({limit: 10, sort: [['created_at', 'desc']]}, function(error,docs){
+    var page = req.param('page') || 0;  //first page is 0
+    if (typeof page != 'number') {
+        page = parseInt(page);
+    }
+
+    var pageSize = config.homeConfig.pageSize;
+
+    articleProvider.findAll({
+        limit: pageSize,
+        skip: page * pageSize,
+        sort: [['created_at', 'desc']]
+    }, function(error,docs){
         var articles = docs || [];
-        console.log(docs);
         articles.forEach(function(article, index){
             article.body = markdown.makeHtml(article.body);
         });
-        res.render('index.jade', {
-            locals: _extLocals({
-                title: 'Blog',
-                articles: articles
-            }, req)
+        articleProvider.count(function(err, count){
+            res.render('index.jade', {
+                locals: _extLocals({
+                    title: 'Blog',
+                    articles: articles,
+                    pageObj: _generatePage(count, page)
+                }, req)
+            });
         });
     })
 });

@@ -65,6 +65,17 @@ ArticleProvider.prototype.findAll = function(options, callback) {
     });
 };
 
+ArticleProvider.prototype.count = function(query, callback) {
+    if (typeof query === 'function') {
+        callback = query;
+        query = {};
+    }
+
+    this.getCollection(function(err, collection){
+        collection.count(query, callback);
+    });
+};
+
 
 ArticleProvider.prototype.findById = function(id, callback) {
     this.getCollection(function(error, article_collection) {

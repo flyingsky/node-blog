@@ -41,6 +41,11 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 	float: right;
 }
 
+.content_wrapper {
+    width: 1310px;  /*990 + 160 + 160*/
+    margin: 0 auto;
+}
+
 #templatemo_wrapper {
 	width: 990px; /*990 + 160 gooadv*/
 	/*margin: 0 auto;*/
@@ -120,7 +125,7 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 
 #templatemo_sidebar {
 	min-height: 255px;
-	padding: 30px 30px 0 50px;
+	padding: 0px 15px 0 43px;
 	background: url(images/templatemo_sitebar.jpg) no-repeat top;
 	
 }
@@ -131,7 +136,7 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 }
 
 .sidebar_box h2 {
-	margin: 0px 0px 15px 0px;
+	margin: 0px 0px 7px 0px;
     padding: 0px;
 	font-size: 18px;
 }
@@ -170,20 +175,20 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 
 .post_section {
 	clear: both;
-	padding-bottom: 20px;
+	padding-bottom: 10px;
 	/*background: url(images/templatemo_divider.jpg) bottom repeat-x;	*/
-	margin-bottom: 20px;
+	/*margin-bottom: 20px;*/
 }
 
 .post_section .post_content {
-	padding: 0 0 0 50px;
+	padding: 0px;
 }
 
 .post_section .post_section_title {
-    margin: 0px;
+    margin: 0px 0px 0px -45px;
 	font-size: 28px;
 	color: #749d07;
-	padding: 10px 0 10px 50px;
+	padding: 10px 0 10px 45px;
 	background: url(images/templatemo_header.png) no-repeat bottom left;
 }
 
@@ -218,7 +223,7 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 
 .comment {
     border-top: 1px dashed #000000;
-    margin: 10px 0px 0px 50px;
+    margin: 10px 0px 0px 0px;
 }
 
 .comment .author {
@@ -237,7 +242,7 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 }
 
 .comment-field {
-    width: 100%;
+    width: 98%;
 }
 
 #templatemo_footer_wrapper {
@@ -315,6 +320,15 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
     font-size: 20px;
 }
 
+/* Pagination */
+.item-pagination { padding:0 0 15px; height:25px; }
+.item-pagination ul { list-style:none; margin:0; padding:0; }
+.item-pagination li { float:left; display:block; }
+.item-pagination li span,.item-pagination li a { width:15px; text-align:center; display:block; font-size:12px; margin:0 5px 0 0; padding:5px 10px; }
+.item-pagination li span { background:#D4DEBB; color:#738F32; }
+.item-pagination li a { background:#738F32; text-shadow:1px 1px 0 #3c4f0f; color:#fff; font-weight:bold; }
+.item-pagination li a:hover { background:#576F1B; }
+
 /** Google Adsense **/
 
 .left-adv{
@@ -335,16 +349,15 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 }
 
 #templatemo_search {
-    padding-left: 47px;
+    margin-bottom: 10px;
 }
 
 #templatemo_search img {
     border: none;
-    margin-left: -4px;
+    margin-top: 3px;
 }
 
-.content_wrapper {
-    width: 1310px;
-    margin: 0 auto;
+#post-content-footer-adv {
+    margin-top: 10px;
 }
 
