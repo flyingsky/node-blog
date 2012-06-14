@@ -7,6 +7,7 @@ var ArticleProvider = require('./articleprovider-mongodb').ArticleProvider;
 var markdown = require('markdown-js');
 var config = require('./config.js');
 var util = require('./lib/util');
+var articleWS = require('./routes/articleService');
 
 
 var app = module.exports = express.createServer();
@@ -32,6 +33,18 @@ app.configure('development', function(){
 
 app.configure('production', function(){
     app.use(express.errorHandler());
+});
+
+
+app.register('.md', {
+    compile: function(str, options){
+        var html = markdown.makeHtml(str);
+        return function(locals){
+            return html.replace(/\{([^}]+)\}/g, function(_, name){
+                return locals[name];
+            });
+        };
+    }
 });
 
 var articleProvider = new ArticleProvider();
@@ -203,9 +216,6 @@ app.post('/blog/upsert', function(req, res){
     }
 });
 
-function _showArticle(res, article) {
-}
-
 app.get('/blog/:id', function(req, res) {
     articleProvider.findById(req.params.id, function(error, article) {
         article.body = markdown.makeHtml(article.body);
@@ -240,19 +250,15 @@ app.get('/about', function(req, res){
     res.render('about.jade', {locals: _extLocals({}, req)});
 });
 
-app.register('.md', {
-    compile: function(str, options){
-        var html = markdown.makeHtml(str);
-        return function(locals){
-            return html.replace(/\{([^}]+)\}/g, function(_, name){
-                return locals[name];
-            });
-        };
+app.all('/s/article/:service', function(req, res){
+    var service = req.params.service;
+    console.log(service);
+    if (articleWS[service]) {
+        articleWS[service](req, res);
+    } else {
+        //TODO: handle not found error
+        console.log('Not Found');
     }
-});
-
-app.get('/s', function(req, res){
-    res.render('hello/hello.md', {layout: false});
 });
 
 app.listen(process.env.VCAP_APP_PORT || 3000);

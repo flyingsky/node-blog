@@ -1,7 +1,56 @@
 block scripts
     script
         $(function(){
-            $('#post-cancel, .submit').button();
+            $('.submit').button();
+
+            $('#loading').hide().ajaxStart(function(){
+                $(this).show();
+            }).ajaxStop(function(){
+                $(this).hide();
+            });
+
+            function _getArticle() {
+                return {
+                     id: $('input[name=id]').val(),
+                     body: $('#editArticleBody').val(),
+                     title: $('#editArticleTitle').val()
+                };
+            }
+
+            var oldArticle = _getArticle();
+
+            function autoSave() {
+                var newArticle = _getArticle();
+                var isChanged = false;
+                for (var p in newArticle) {
+                    if (newArticle[p] != oldArticle[p]) {
+                        isChanged = true;
+                        break;
+                    }
+                }
+
+                if (!isChanged) {
+                    return false;
+                }
+
+                $.ajax({
+                   url: '/s/article/autoSaveArticle',
+                   dataType: 'json',
+                   type: 'POST',
+                   data: newArticle,
+                   success: function (data) {
+                       console.log(data);
+                       $('input[name=id]').val(data._id);
+                       oldArticle = _getArticle();
+                   },
+                   error: function(jqXHR, textStatus, errorThrown) {
+                       console.error('Save error: ' + textStatus + ': ' + errorThrown);
+                       $('#loading').text('auto save error');
+                   }
+               });
+            }
+
+            setInterval(autoSave, 60*1000); //1 min
         });
 
 .post_form
@@ -11,5 +60,7 @@ block scripts
         input.text.ui-corner-all(type="text", name="title", id="editArticleTitle", value=article.title)
         span.label Content
         textarea.text.ui-corner-all(name="body", rows=40, id="editArticleBody")!= article.body
-        a#post-cancel(href='/') Cancel
+        a#post-cancel(href='/', style='float:right') Back To Home
         input.submit(type="submit", value="Submit")
+
+#loading Loading
