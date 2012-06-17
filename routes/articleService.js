@@ -9,8 +9,9 @@
 var ArticleProvider = require('../articleprovider-mongodb').ArticleProvider;
 var articleDb = new ArticleProvider();
 
-exports.autoSaveArticle = function(req, res) {
+var markdown = require('markdown-js');
 
+exports.autoSaveArticle = function(req, res) {
     var id = req.param('id');
     var article = {
         body: req.param('body'),
@@ -37,4 +38,8 @@ exports.autoSaveArticle = function(req, res) {
         article._id = id;
         articleDb.update(article, callback);
     }
+};
+
+exports.preview = function(req, res) {
+    res.send(markdown.makeHtml(req.param('body')));
 };

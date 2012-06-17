@@ -1,14 +1,38 @@
 block scripts
+    script(type="text/javascript", src="/javascripts/jquery.textarea.js")
+
     script
         $(function(){
-            $('.submit').button();
+            $('.submit, .preview').button();
+            $('#editArticleBody').tabby();
 
+            //Loading status
             $('#loading').hide().ajaxStart(function(){
                 $(this).show();
             }).ajaxStop(function(){
                 $(this).hide();
             });
 
+            //Preview
+            $('.preview').click(function(event){
+                $('.post_content_body').html('');
+                $.ajax({
+                    url: '/s/article/preview',
+                    dataType: 'html',
+                    type: 'POST',
+                    data: {body: $('#editArticleBody').val()},
+                    success: function(data) {
+                        console.log(data);
+                        $('.post_content_body').html(data);
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        console.error('preview fail: ' + textStatus + ': ' + errorThrown);
+                        $('.post_content_body').text('preview fail');
+                    }
+                });
+            });
+
+            //auto saving
             function _getArticle() {
                 return {
                      id: $('input[name=id]').val(),
@@ -61,6 +85,11 @@ block scripts
         span.label Content
         textarea.text.ui-corner-all(name="body", rows=40, id="editArticleBody")!= article.body
         a#post-cancel(href='/', style='float:right') Back To Home
+        input.preview(type="button", value="Preview")
         input.submit(type="submit", value="Submit")
+
+    .post_section
+        .post_content
+            .post_content_body
 
 #loading Loading
