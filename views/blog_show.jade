@@ -4,7 +4,8 @@ block content_right
       div.post_section
         div.datetime
           .top
-              p!='星期' + article.created_at.getDay()
+              - var days = ['日', '一', '二', '三', '四', '五', '六'];
+              p!='星期' + days[article.created_at.getDay()]
           .btm
               p.day!= article.created_at.getDate() + '日'
               p.mon!=(article.created_at.getMonth() + 1) + '月'
