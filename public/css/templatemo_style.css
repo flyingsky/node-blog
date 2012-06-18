@@ -201,6 +201,13 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 	margin-bottom: 20px;
 }
 
+.post_content_body pre{
+    border: 1px dashed black;
+    background-color:#EEE;
+    padding: 0px 5px;
+    overflow: scroll;
+}
+
 .post_content_header {
     margin-bottom: 20px;
 }
