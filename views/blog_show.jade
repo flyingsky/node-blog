@@ -2,10 +2,16 @@ extends ./layout/basic_layout
 
 block content_right
       div.post_section
+        div.datetime
+          .top
+              p!='星期' + article.created_at.getDay()
+          .btm
+              p.day!= article.created_at.getDate() + '日'
+              p.mon!=(article.created_at.getMonth() + 1) + '月'
+              p.yr!=article.created_at.getFullYear()
         h2.post_section_title=article.title
 
         div.post_content
-            div.post_content_header!= article.created_at
             div.post_content_body!= article.body
 
             div.post_content_footer

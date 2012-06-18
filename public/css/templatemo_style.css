@@ -181,7 +181,7 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
 }
 
 .post_section .post_content {
-	padding: 0px;
+	padding: 10px 0 0 0;
 }
 
 .post_section .post_section_title {
@@ -342,6 +342,73 @@ img { margin: 0px; padding: 0px; border: 5px solid #FFFFFF; }
     background-color: red;
     margin: 0.2em 0.4em 0 0;
     height: 20px;
+}
+
+div.datetime {
+    float:left;
+    display: block;
+    padding:0;
+    margin: 0 10px 0 2px;
+    width:3.1em;
+    min-width: 48px;
+    color: #365174;
+    background:#FEFEFE url(images/corner.png) no-repeat right bottom;
+    text-align: center;
+    font-size: x-small;
+    border-left:2px solid #5a8465;
+}
+
+div.datetime .top {
+    color:#fefefe;
+    background-color:#5a8465;
+    margin: 0 2px 0 0;
+    padding: 6px 0 1px 0;
+    line-height: 100%;
+}
+
+div.datetime .btm {
+    background:transparent;
+    margin:2px auto;
+    padding:0 0 1px 0;
+}
+
+div.datetime .top p {
+    background:url(images/caltop1b.gif) no-repeat 50% 0;
+    margin:-9px auto 0 auto; /* negative top margin, auto for centering */
+    padding:11px 1px 0 0;
+    font:bold x-small/100% Georgia, "New Century Schoolbook", "Book Antiqua", "Times New Roman", serif;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+}
+
+/* day of the month (NUMBER) */
+div.datetime p.day {
+    font:bold 1.3em/98% Georgia, "New Century Schoolbook", "Book Antiqua", "Times New Roman", serif;
+    letter-spacing:0.13em;
+    padding: 0 0 1px 0;
+}
+
+/* month */
+div.datetime p.mon {
+    font:x-small/135% Verdana,Geneva,Arial,Helvetica,sans-serif;
+    letter-spacing:normal;
+    text-transform:uppercase;
+    padding: 0px;
+}
+
+/* year */
+div.datetime p.yr {
+    font:x-small/110% Verdana,Geneva,Arial,Helvetica,sans-serif;
+    letter-spacing:0.05em;
+    margin: 0 auto;
+    padding: 0 4px 0 0;
+}
+
+div.datetime p {
+    margin:0 auto;
+    padding:0;
+    text-align:center;
+    font-size:x-small;
 }
 
 /** Google Adsense **/
