@@ -53,7 +53,9 @@ var articleProvider = new ArticleProvider();
 function _extLocals(locals, req) {
     var extraLocals = {
         readOnly: _isReadOnly(req),
-        favLinks: config.favLinks
+        favLinks: config.favLinks,
+        categories: config.categories,
+        cid: null
     }
     return util.extend(extraLocals, locals);
 }
@@ -105,8 +107,12 @@ app.get('/', function(req, res){
     }
 
     var pageSize = config.homeConfig.pageSize;
+    var cid = req.param('cid') === null || req.param('cid') === undefined ? 0 : req.param('cid');
+    cid = parseInt(cid);
+    req.session.cid = cid;
+    var query = cid == 0 ? {} : {cid: cid};
 
-    articleProvider.findAll({
+    articleProvider.findAll(query, {
         limit: pageSize,
         skip: page * pageSize,
         sort: [['created_at', 'desc']]
@@ -115,12 +121,13 @@ app.get('/', function(req, res){
         articles.forEach(function(article, index){
             article.body = markdown.makeHtml(article.body);
         });
-        articleProvider.count(function(err, count){
+        articleProvider.count(query, function(err, count){
             res.render('index.jade', {
                 locals: _extLocals({
                     title: 'Blog',
                     articles: articles,
-                    pageObj: _generatePage(count, page)
+                    pageObj: _generatePage(count, page),
+                    cid: cid
                 }, req)
             });
         });
@@ -168,14 +175,15 @@ app.post('/', function(req, res){
 //new post
 app.get('/blog/upsert', function(req, res) {
     res.render('blog_new.jade', {
-        locals: {
+        locals: _extLocals({
             title: 'New Post',
             article: {
                 id: '',
+                cid: req.session.cid,
                 title: '',
                 body: ''
             }
-        }
+        })
     });
 });
 
@@ -184,10 +192,10 @@ app.get('/blog/upsert/:id', function(req, res) {
     articleProvider.findById(req.params.id, function(error, article) {
         console.log(article);
         res.render('blog_new.jade', {
-            locals: {
+            locals: _extLocals({
                 title: article.title,
                 article:article
-            }
+            })
         });
     });
 });
@@ -199,7 +207,8 @@ app.post('/blog/upsert', function(req, res){
         var article = {
             _id: id,
             title: req.param('title'),
-            body: req.param('body')
+            body: req.param('body'),
+            cid: req.param('cid')
         };
         console.log('before update article');
         console.log(article);
@@ -209,9 +218,10 @@ app.post('/blog/upsert', function(req, res){
     } else {
         articleProvider.save({
             title: req.param('title'),
-            body: req.param('body')
+            body: req.param('body'),
+            cid: req.param('cid')
         }, function( error, docs) {
-            res.redirect('/')
+            res.redirect('/?cid=' + req.session.cid);
         });
     }
 });
@@ -247,7 +257,7 @@ app.post('/blog/addComment', function(req, res) {
 });
 
 app.get('/about', function(req, res){
-    res.render('about.jade', {locals: _extLocals({}, req)});
+    res.render('about.jade', {locals: _extLocals({cid: -1}, req)});
 });
 
 app.all('/s/article/:service', function(req, res){
@@ -258,6 +268,18 @@ app.all('/s/article/:service', function(req, res){
     } else {
         //TODO: handle not found error
         console.log('Not Found');
+    }
+});
+
+var demoActions = require('./routes/demo');
+
+app.all('/demos/:action', function(req, res){
+    var action = req.params.action;
+    if (demoActions[action]) {
+        demoActions[action](req, res);
+    } else {
+        //TODO: handle not found error
+        res.render('demos/' + action + '.jade', {locals:{}});
     }
 });
 

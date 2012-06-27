@@ -1,0 +1,58 @@
+style
+    body {
+        background: #f2e7ca;
+    }
+    .post_section {
+        width: 670px;
+        margin: 150px auto;
+    }
+    textarea {
+        height: 60px !important;
+    }
+    .login-form {
+        width: 620px;
+        margin: 0px;
+    }
+
+script
+    $(function(){
+        function isValidEmailAddress(emailAddress) {
+            var pattern = new RegExp(/^[+a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/i);
+            return pattern.test(emailAddress);
+        };
+
+        $('input[type=submit]').button().click(function(event){
+            if (!isValidEmailAddress($('#email').val())) {
+                $('.errorMsg').text('Email is not valid');
+                event.preventDefault();
+            }
+        });
+    });
+
+block content_right
+      div.post_section
+            h2.post_section_title Register
+            div.post_content
+                .login-form
+                    .errorMsg=info
+                    form.login(method="post")
+                        span.label Email:
+                        input.text.ui-corner-all(type="text", name="email", id="email")
+                        span.label Feedback:
+                        textarea.text.ui-corner-all(name="body", rows=10, id="editArticleBody")
+                        input.submit(type="submit", name="submit", value="Register")
+                        input.submit(type="submit", name="submit", value="Send Feedback")
+
+block foot
+      #templatemo_footer_wrapper
+        #templatemo_footer
+            ul.footer_menu
+                li
+                    a(href="#") Home
+                li
+                    a(href="http://www.facebook.com") FaceBook
+                li
+                    a(href="mailto:llmfei@gmail.com") Contact Me
+
+            @copyright-2012
+

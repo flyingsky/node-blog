@@ -32,52 +32,52 @@ block content_right
 
             div.post_content_body!= article.body
             div.post_content_footer
-                a.first(href="/blog/"+article._id.toHexString()) Continue Reading...
+                // a.first(href="/blog/"+article._id.toHexString()) Continue Reading...
                 a(href="/blog/"+article._id.toHexString()) Comments(#{article.comments.length})
 
                 if !readOnly
                     a#blogDelete(href="/blog/delete/"+article._id.toHexString())!= "Delete"
                     a(href="/blog/upsert/"+article._id.toHexString())!= "Edit"
 
-
-    .item-pagination
-      div(style='margin:10px auto;width:' + (6 + pageObj.displayPages.length)*40 + 'px')
-        ul
-            li
-              if pageObj.first == -1
-                span <<
-              else
-                a(href='?page=' + pageObj.first) <<
-            li
-              if pageObj.previous == -1
-                span <
-              else
-                a(href="?page=" + pageObj.previous) <
-
-            if (pageObj.less != null)
-              li
-                a(href="?page=" + pageObj.less) ...
-
-            - each displayPageIndex in pageObj.displayPages
-              if displayPageIndex == pageObj.currentPage
+    if (articles.length > 0)
+        .item-pagination
+          div(style='margin:10px auto;width:' + (6 + pageObj.displayPages.length)*40 + 'px')
+            ul
                 li
-                  span=(displayPageIndex+1)
-              else
+                  if pageObj.first == -1
+                    span <<
+                  else
+                    a(href='?page=#{pageObj.first}&cid=#{cid}') <<
                 li
-                  a(href="?page=" + (displayPageIndex))=(displayPageIndex+1)
+                  if pageObj.previous == -1
+                    span <
+                  else
+                    a(href="?page=#{pageObj.previous}&cid=#{cid}") <
 
-            if (pageObj.more != null)
-              li
-                a(href="?page=" + (pageObj.more)) ...
+                if (pageObj.less != null)
+                  li
+                    a(href="?page=#{pageObj.less}&cid=#{cid}") ...
 
-            li
-              if (pageObj.next == -1)
-                span >
-              else
-                a(href='?page=' + pageObj.next) >
-            li
-              if (pageObj.last == -1)
-                span >>
-              else
-                a(href="?page=" + pageObj.last) >>
+                - each displayPageIndex in pageObj.displayPages
+                  if displayPageIndex == pageObj.currentPage
+                    li
+                      span=(displayPageIndex+1)
+                  else
+                    li
+                      a(href="?page=#{displayPageIndex}&cid=#{cid}")=(displayPageIndex+1)
+
+                if (pageObj.more != null)
+                  li
+                    a(href="?page=#{pageObj.more}&cid=#{cid}") ...
+
+                li
+                  if (pageObj.next == -1)
+                    span >
+                  else
+                    a(href='?page=#{pageObj.next}&cid=#{cid}') >
+                li
+                  if (pageObj.last == -1)
+                    span >>
+                  else
+                    a(href="?page=#{pageObj.last}&cid=#{cid}") >>
 

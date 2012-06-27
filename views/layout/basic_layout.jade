@@ -41,12 +41,12 @@ html
 
                 #templatemo_menu
                     ul
+                        each category in categories
+                            li
+                                a(href="/?cid=" + category.cid, class=(cid == category.cid ? "current" : null))=category.title
+
                         li
-                            a(href="/", class="current") Home
-                        li
-                            a(href="/") Tech Blog
-                        li
-                            a(href="/about") About Me
+                            a(href="/about", class="" + (cid == -1 ? "current" : "")) About Me
 
                 #templatemo_sidebar
                     div.sidebar_box
@@ -102,10 +102,9 @@ html
       #templatemo_footer_wrapper
         #templatemo_footer
             ul.footer_menu
-                li
-                    a(href="/") Home
-                li
-                    a(href="/") Tech Blog
+                each category in categories
+                    li
+                        a(href="/?cid=" + category.cid)=category.title
                 li
                     a(href="/about") About Me
 

@@ -47,16 +47,17 @@ ArticleProvider.prototype.getCollection= function(callback) {
     });
 };
 
-ArticleProvider.prototype.findAll = function(options, callback) {
+ArticleProvider.prototype.findAll = function(query, options, callback) {
     if (typeof options === 'function') {
         callback = options;
     }
     options = util.extend({}, options);
+    query = util.extend({}, query);
 
     this.getCollection(function(error, article_collection) {
         if( error ) callback(error)
         else {
-            article_collection.find({}, options).toArray(function(error, results) {
+            article_collection.find(query, options).toArray(function(error, results) {
                 console.log("findAll results=" + results.length);
                 if( error ) callback(error)
                 else callback(null, results)
@@ -97,6 +98,20 @@ ArticleProvider.prototype.removeById = function(id, callback) {
     });
 };
 
+function _validate(article) {
+    if (article.cid) {
+        if (typeof(article.cid) != 'number') {
+            article.cid = parseInt(article.cid);
+            if (isNaN(article.cid)) {
+                article.cid = 0;
+            }
+        }
+    } else {
+        article.cid = 0;
+    }
+    return article;
+}
+
 ArticleProvider.prototype.save = function(articles, callback) {
     this.getCollection(function(error, article_collection) {
         if( error ) callback(error)
@@ -106,6 +121,7 @@ ArticleProvider.prototype.save = function(articles, callback) {
 
             for( var i =0;i< articles.length;i++ ) {
                 article = articles[i];
+                _validate(article);
                 article.created_at = new Date();
                 if( article.comments === undefined ) article.comments = [];
                 for(var j =0;j< article.comments.length; j++) {
@@ -131,7 +147,8 @@ ArticleProvider.prototype.update = function(article, callback) {
             }, {
                 $set: {
                     title: article.title,
-                    body: article.body
+                    body: article.body,
+                    cid: _validate(article).cid
                 }
             }, {
                 safe: true

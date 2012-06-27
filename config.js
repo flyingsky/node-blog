@@ -12,6 +12,19 @@ var config = {
         pageSize: 10,
         displayPageCount: 10
     },
+    categories: [{
+        title: 'Home',
+        cid: 0
+    },{
+        title: 'Collection',
+        cid: 2
+    }, {
+        title: 'Demo',
+        cid: 3
+    }, {
+        title: 'Thought',
+        cid: 4
+    }],
     favLinks: [{
         title: 'My old blog',
         url:'http://blog.csdn.net/llmlx',

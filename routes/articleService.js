@@ -15,7 +15,8 @@ exports.autoSaveArticle = function(req, res) {
     var id = req.param('id');
     var article = {
         body: req.param('body'),
-        title: req.param('title')
+        title: req.param('title'),
+        cid: req.param('cid')
     };
 
     var callback = function(err, articles) {

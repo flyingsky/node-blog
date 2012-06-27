@@ -80,10 +80,18 @@ block scripts
 .post_form
     form( method="post", action="/blog/upsert")
         input.text.ui-corner-all(type="hidden", name="id", value=article._id)
+
         span.label Title
         input.text.ui-corner-all(type="text", name="title", id="editArticleTitle", value=article.title)
+
+        span.label Category
+        select.text.ui-corner-all(name="cid", id="cid", value=article.cid)
+            each category in categories
+                option(value="#{category.cid}", selected=category.cid == article.cid ? "selected" : null)=category.title
+
         span.label Content
         textarea.text.ui-corner-all(name="body", rows=40, id="editArticleBody")!= article.body
+
         a#post-cancel(href='/', style='float:right') Back To Home
         input.preview(type="button", value="Preview")
         input.submit(type="submit", value="Submit")
