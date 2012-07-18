@@ -18,7 +18,10 @@ app.configure(function(){
     app.set('views', __dirname + '/views');
     app.set('view engine', 'jade');
     app.set('view option', {layout: false});
-    app.use(express.bodyParser());
+    app.use(express.bodyParser({
+        uploadDir: __dirname + '/tmp',
+        keepExtensions: true
+    }));
     app.use(express.cookieParser());
     app.use(express.session({ secret: "ramonblog" }));
     app.use(express.methodOverride());
@@ -275,6 +278,7 @@ var demoActions = require('./routes/demo');
 
 app.all('/demos/:action', function(req, res){
     var action = req.params.action;
+    console.log("demo action: " + action);
     if (demoActions[action]) {
         demoActions[action](req, res);
     } else {

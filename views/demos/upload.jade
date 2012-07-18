@@ -1,0 +1,27 @@
+style
+    body {
+        background: #f2e7ca;
+    }
+    .post_section {
+        width: 670px;
+        margin: 150px auto;
+    }
+    textarea {
+        height: 60px !important;
+    }
+    .login-form {
+        width: 620px;
+        margin: 0px;
+    }
+
+block content_right
+      div.post_section
+            h2.post_section_title Register
+            div.post_content
+                .login-form
+                    form(method="post", enctype="multipart/form-data")
+                      input(type="file", name="displayImage")
+                      input(type="submit", name="submit", value="Submit")
+
+            if uploaded
+                img(src=imageUrl)
