@@ -11,6 +11,8 @@ block content_right
               p.mon!=(article.created_at.getMonth() + 1) + '月'
               p.yr!=article.created_at.getFullYear()
         h2.post_section_title=article.title
+            .g-plusone-wrapper
+                .g-plusone(data-size="small")
 
         div.post_content
             div.post_content_body!= article.body
